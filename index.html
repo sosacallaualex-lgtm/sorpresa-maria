@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Feliz Cumpleaños María! ✨</title>
+    <!-- Meta tags para SEO / Presentación -->
+    <meta name="description" content="Una sorpresa interactiva y especial creada con mucho cariño para celebrar el cumpleaños de María.">
+    <!-- Google Fonts: Outfit (moderno), Dancing Script (carta/polaroid) y Playfair Display (elegante) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Outfit:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Hojas de estilo -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Canvas para el sistema de partículas (corazones, confeti) -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- Pantalla de Bienvenida (Intro Overlay) -->
+    <div id="intro-overlay" class="intro-overlay">
+        <div class="intro-card glass">
+            <div class="intro-icon">📖</div>
+            <h1 class="intro-title">Feliz cumpleaños, Maria ✨</h1>
+            <p class="intro-subtitle">Como en tus historias favoritas, esta también empieza con "había una vez"...</p>
+            <button type="button" id="btn-start" class="btn btn-primary animate-pulse">Comenzar la historia ✨</button>
+        </div>
+    </div>
+
+    <!-- Contenido Principal (oculto al inicio, se revela al dar click) -->
+    <main id="main-content" class="main-content hidden">
+        <!-- Control de Música Flotante -->
+        <div class="music-control glass" id="music-control-btn" title="Reproducir / Pausar Música">
+            <span class="music-icon" id="music-icon">🎵</span>
+            <span class="music-text">Música de fondo</span>
+        </div>
+
+        <!-- Encabezado Principal -->
+        <header class="main-header">
+            <h1 class="header-title">¡Feliz Cumpleaños, <span class="highlight">María</span>! 🌸</h1>
+            <p class="header-subtitle">Hoy es un día mágico porque celebramos tu vida y la alegría que traes a todos.</p>
+        </header>
+
+        <!-- SECCIÓN 1: El Sobre Interactivo -->
+        <section class="section envelope-section">
+            <!-- Collage de fondo -->
+            <div class="collage-bg">
+                <img src="assets/093c8df5-f83f-4883-bade-78cfbb7a9948.jpg" class="collage-img" style="--r: -12deg; --x: 2%; --y: 2%; --s: 1;" loading="lazy" alt="Recuerdo">
+                <img src="assets/538ea4f4-596d-4f1e-922a-708dd00a67b0.jpg" class="collage-img" style="--r: 8deg; --x: 75%; --y: 5%; --s: 1.05;" loading="lazy" alt="Recuerdo">
+                <img src="assets/72e48e2f-6104-45d1-94e8-79db4ad29008.jpg" class="collage-img" style="--r: 20deg; --x: -2%; --y: 40%; --s: 0.95;" loading="lazy" alt="Recuerdo">
+                <img src="assets/7b27bd9a-c5b7-4043-b011-4098a11728ef.jpg" class="collage-img" style="--r: -6deg; --x: 80%; --y: 45%; --s: 1.1;" loading="lazy" alt="Recuerdo">
+                <img src="assets/8dbb4385-8de5-45ee-8cc5-bb3781df91ec.jpg" class="collage-img" style="--r: 15deg; --x: 30%; --y: -5%; --s: 0.9;" loading="lazy" alt="Recuerdo">
+                <img src="assets/a5138385-03de-4694-9a47-35c0dfa63da3.jpg" class="collage-img" style="--r: -18deg; --x: 15%; --y: 75%; --s: 1.05;" loading="lazy" alt="Recuerdo">
+                <img src="assets/d4b98eb2-e1db-4329-9891-b21f4c5228b4.jpg" class="collage-img" style="--r: 5deg; --x: 48%; --y: 80%; --s: 1;" loading="lazy" alt="Recuerdo">
+                <img src="assets/f82dc139-baec-43a9-9eef-13669eeac77b.jpg" class="collage-img" style="--r: -10deg; --x: 72%; --y: 75%; --s: 0.95;" loading="lazy" alt="Recuerdo">
+            </div>
+
+            <h2 class="section-title z-top">Una carta especial para ti ✉️</h2>
+            <p class="section-desc z-top">Haz clic en el sobre para abrirlo y leer el mensaje.</p>
+
+            <div class="envelope-wrapper z-top">
+                <div class="envelope" id="interactive-envelope">
+                    <div class="flap"></div>
+                    <div class="pocket"></div>
+                    <div class="letter" id="letter">
+                        <div class="letter-content">
+                            <h3 class="letter-title">Feliz cumpleaños, Maria</h3>
+                            <p class="letter-text">
+                                Hoy quiero tomarme un momento para decirte lo agradecido que estoy de tenerte en mi vida. Estos meses juntos me han enseñado mucho sobre confiar, sobre comunicarme, y sobre lo que significa realmente construir algo con otra persona.
+                            </p>
+                            <p class="letter-text">
+                                Sé que no siempre soy perfecto, y que a veces mis inseguridades se meten donde no deberían. Pero quiero que sepas que detrás de eso, lo que siento por ti es real y es fuerte. Valoro tu honestidad, tu paciencia, y la forma en que siempre buscas hablar las cosas en vez de dejarlas pasar.
+                            </p>
+                            <p class="letter-text">
+                                Me encanta lo apasionada que eres con tus historias, verte perdida en un libro, o metida hasta el cuello en una serie o película romántica, sufriendo y suspirando con los personajes como si fuera la vida real. Ese día que fuimos juntos a la feria de libros sigue siendo uno de mis recuerdos favoritos; verte ahí, feliz entre tantas historias, fue simplemente lindo.
+                            </p>
+                            <p class="letter-text">
+                                Y no puedo dejar pasar el detalle random pero inolvidable de mi defensa interna, cuando me negaste frente a mis propios ingenieros, todavía me río al recordarlo, y probablemente sea una de las anécdotas que más vamos a contar con el tiempo.
+                            </p>
+                            <p class="letter-text">
+                                Espero que este nuevo año de vida te traiga todo lo que mereces: alegría, tranquilidad, buenos libros, mejores finales de película, y muchos momentos buenos, algunos de ellos, espero, junto a mí.
+                            </p>
+                            <p class="letter-signature">Gracias por ser parte de mi vida.<br>Feliz cumpleaños, te quiero mucho. ❤️</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 2: Pastel de Cumpleaños Interactivo -->
+        <section class="section cake-section">
+            <h2 class="section-title">Pide un deseo 🎂</h2>
+            <p class="section-desc" id="cake-instruction">Haz clic en cada una de las velas para "soplarlas" y apagar el fuego.</p>
+
+            <div class="cake-container">
+                <div class="cake">
+                    <div class="plate"></div>
+                    <div class="layer layer-bottom"></div>
+                    <div class="layer layer-middle"></div>
+                    <div class="layer layer-top"></div>
+                    <div class="icing"></div>
+                    <div class="drips">
+                        <div class="drip"></div>
+                        <div class="drip"></div>
+                        <div class="drip"></div>
+                    </div>
+                    <div class="candles-wrapper">
+                        <!-- Vela 1 -->
+                        <div class="candle active" data-index="1">
+                            <div class="flame"></div>
+                            <div class="wick"></div>
+                        </div>
+                        <!-- Vela 2 -->
+                        <div class="candle active" data-index="2">
+                            <div class="flame"></div>
+                            <div class="wick"></div>
+                        </div>
+                        <!-- Vela 3 -->
+                        <div class="candle active" data-index="3">
+                            <div class="flame"></div>
+                            <div class="wick"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="wish-message" class="wish-message hidden glass">
+                <h3>✨ ¡Pide tu deseo con fuerza! ✨</h3>
+                <p>Que la vida te regale todo lo que sueñas. ¡Felicidades, María!</p>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 3: Galería de Recuerdos / Ilustraciones -->
+        <section class="section gallery-section">
+            <h2 class="section-title">Detalles que inspiras 📸</h2>
+            <p class="section-desc">Tres pequeños cuadros llenos de color y buenos deseos para alegrar tu día.</p>
+
+            <div class="gallery-grid">
+                <!-- Polaroid 1 -->
+                <div class="polaroid-card" onclick="this.classList.toggle('show-msg')">
+                    <div class="polaroid-image-wrapper">
+                        <img src="assets/tulipanes.png" alt="Tulipanes hermosos de cumpleaños" class="polaroid-image" loading="lazy">
+                        <div class="polaroid-overlay">
+                            <p>Nunca me lo dijiste, pero sé que son tus favoritas.</p>
+                        </div>
+                    </div>
+                    <p class="polaroid-caption">Luz y alegría 🌷</p>
+                </div>
+
+                <!-- Polaroid 2 -->
+                <div class="polaroid-card" onclick="this.classList.toggle('show-msg')">
+                    <div class="polaroid-image-wrapper">
+                        <img src="assets/pastel_nuevo.png" alt="Pastel de cumpleaños elegante" class="polaroid-image" loading="lazy">
+                        <div class="polaroid-overlay">
+                            <p>Sé que dirías que no debía, pero mereces algo dulce hoy.</p>
+                        </div>
+                    </div>
+                    <p class="polaroid-caption">Dulces momentos 🍰</p>
+                </div>
+
+                <!-- Polaroid 3 -->
+                <div class="polaroid-card" onclick="this.classList.toggle('show-msg')">
+                    <div class="polaroid-image-wrapper">
+                        <img src="assets/regalo_nuevo.png" alt="Caja de regalo decorada" class="polaroid-image" loading="lazy">
+                        <div class="polaroid-overlay">
+                            <p>Lo elegí pensando en verte sonreír al abrirlo</p>
+                        </div>
+                    </div>
+                    <p class="polaroid-caption">Muchas sorpresas 🎁</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 4: Mensajes de los Corazones -->
+        <section class="section hearts-section">
+            <h2 class="section-title">Tres deseos para tu año 💖</h2>
+            <p class="section-desc">Haz clic en cada corazón para revelar un deseo especial para tu vida.</p>
+
+            <div class="hearts-container">
+                <button type="button" class="heart-btn" data-target="msg-love" id="btn-heart-1">❤️ <span class="heart-lbl">Para ti</span></button>
+                <button type="button" class="heart-btn" data-target="msg-health" id="btn-heart-2">🧡 <span class="heart-lbl">Para nosotros</span></button>
+                <button type="button" class="heart-btn" data-target="msg-success" id="btn-heart-3">💛 <span class="heart-lbl">Random</span></button>
+            </div>
+
+            <div class="heart-message-box glass">
+                <div id="heart-msg-placeholder" class="heart-msg active">
+                    <p class="italic">Haz clic en alguno de los corazones de arriba para leer el mensaje...</p>
+                </div>
+                <div id="msg-love" class="heart-msg hidden">
+                    <h3>Un deseo para ti ❤️</h3>
+                    <p>Que este año te traiga tantas historias bonitas como las que lees en tus libros, pero mejor, protagonizadas por ti misma.</p>
+                </div>
+                <div id="msg-health" class="heart-msg hidden">
+                    <h3>Un deseo para nosotros 🧡</h3>
+                    <p>Que sigamos escribiendo nuestra propia historia, con menos guiones y más finales felices como los de tus películas favoritas.</p>
+                </div>
+                <div id="msg-success" class="heart-msg hidden">
+                    <h3>Un deseo random 💛</h3>
+                    <p>Que nunca dejes de negarme cosas frente a mis ingenieros, es oficialmente parte de mi anécdota favorita contigo.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="main-footer">
+            <p>Hecho con mucho cariño para María ✨</p>
+            <p class="footer-sub">Feliz Cumpleaños • 2026</p>
+        </footer>
+    </main>
+
+    <!-- JavaScript principal -->
+    <script src="script.js"></script>
+</body>
+</html>
