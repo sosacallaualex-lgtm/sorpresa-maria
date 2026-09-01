@@ -541,4 +541,29 @@ document.addEventListener('DOMContentLoaded', () => {
             createBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 20);
         });
     });
+
+    // ----------------------------------------------------
+    // 4. INCLINACIÓN 3D (TILT EFFECT) PARA TARJETAS POLAROID
+    // ----------------------------------------------------
+    const polaroidCards = document.querySelectorAll('.polaroid-card');
+    
+    polaroidCards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const rotateX = ((y - centerY) / centerY) * -14;
+            const rotateY = ((x - centerX) / centerX) * 14;
+            
+            card.style.transform = `perspective(1000px) scale(1.07) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg)`;
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = '';
+        });
+    });
 });
