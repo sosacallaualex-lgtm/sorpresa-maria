@@ -420,6 +420,69 @@ body {
     border-radius: 0 0 12px 12px;
 }
 
+/* Sello de Cera 3D */
+.wax-seal {
+    position: absolute;
+    top: 86px;
+    left: calc(50% - 25px);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #e63956 0%, #a81c37 60%, #61091a 100%);
+    box-shadow: 
+        0 6px 15px rgba(0, 0, 0, 0.45),
+        inset 0 3px 6px rgba(255, 255, 255, 0.35),
+        inset 0 -4px 8px rgba(0, 0, 0, 0.65),
+        0 0 0 2px rgba(212, 175, 55, 0.35);
+    z-index: 6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.25), box-shadow 0.4s ease, opacity 0.5s ease;
+    animation: sealFloat 3s ease-in-out infinite;
+}
+
+.wax-seal:hover {
+    transform: scale(1.12) rotate(4deg);
+    box-shadow: 
+        0 8px 20px rgba(0, 0, 0, 0.5),
+        inset 0 3px 6px rgba(255, 255, 255, 0.5),
+        inset 0 -4px 8px rgba(0, 0, 0, 0.7),
+        0 0 15px rgba(232, 176, 162, 0.6);
+}
+
+.wax-stamp {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    user-select: none;
+    pointer-events: none;
+}
+
+.seal-heart {
+    font-size: 11px;
+    color: #fbe6af;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8), 0 0 4px rgba(212, 175, 55, 0.8);
+    margin-bottom: 1px;
+}
+
+.seal-letter {
+    font-family: 'Playfair Display', serif;
+    font-size: 19px;
+    font-weight: 700;
+    color: #fbe6af;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9), 0 0 5px rgba(212, 175, 55, 0.9);
+    letter-spacing: -0.5px;
+}
+
+@keyframes sealFloat {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-3px) rotate(2deg); }
+}
+
 /* Carta */
 .letter {
     position: absolute;
@@ -476,6 +539,14 @@ body {
 .envelope.open .flap {
     transform: rotateX(180deg);
     z-index: 2;
+}
+
+.envelope.open .wax-seal {
+    transform: scale(1.5) translateY(-35px) rotate(30deg);
+    opacity: 0;
+    pointer-events: none;
+    animation: none;
+    transition: transform 0.5s ease-out, opacity 0.4s ease-out;
 }
 
 .envelope.open .letter {

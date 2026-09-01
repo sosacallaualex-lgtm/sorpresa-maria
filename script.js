@@ -335,16 +335,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Sobre interactivo
     const envelope = document.getElementById('interactive-envelope');
+    const waxSeal = document.getElementById('wax-seal');
+
     envelope.addEventListener('click', (e) => {
         // Evitar que haga clic en el texto o la carta y reinicie
         if (e.target.closest('.letter')) return;
         
-        envelope.classList.toggle('open');
+        const isOpen = envelope.classList.toggle('open');
         
-        // Generar confeti al abrir
-        if (envelope.classList.contains('open')) {
-            const rect = envelope.getBoundingClientRect();
-            createBurst(rect.left + rect.width / 2, rect.top + 30, 40);
+        // Generar destellos de partículas al romper el sello de cera
+        if (isOpen) {
+            const rect = waxSeal ? waxSeal.getBoundingClientRect() : envelope.getBoundingClientRect();
+            const posX = rect.left + rect.width / 2;
+            const posY = rect.top + rect.height / 2;
+            
+            // Ráfaga inmediata al romper el sello
+            createBurst(posX, posY, 45);
+            
+            // Ráfaga secundaria suave para dar más magia
+            setTimeout(() => {
+                createBurst(posX, posY - 20, 25);
+            }, 150);
         }
     });
 
