@@ -167,36 +167,24 @@ document.addEventListener('DOMContentLoaded', () => {
         'SILENCE': 0
     };
 
-    // Melodía: Harry Styles - Sign of the Times (Caja de Música Instrumental)
-    const tempo = 110;
+    // Melodía: Lord Huron - The Night We Met (La noche que nos conocimos)
+    const tempo = 96;
     const beatDuration = 60 / tempo;
 
     const melody = [
-        // "Just stop your crying"
-        { note: 'C5', dur: 0.5 }, { note: 'C5', dur: 0.5 }, { note: 'A4', dur: 0.5 }, { note: 'C5', dur: 0.5 }, { note: 'A4', dur: 1.0 },
-        // "It's a sign of the times"
-        { note: 'G4', dur: 0.5 }, { note: 'F4', dur: 0.5 }, { note: 'G4', dur: 0.5 }, { note: 'F4', dur: 0.5 }, { note: 'F4', dur: 2.0 },
-        // "Welcome to the final"
-        { note: 'F4', dur: 0.5 }, { note: 'F4', dur: 0.5 }, { note: 'F4', dur: 0.5 }, { note: 'A4', dur: 0.5 }, { note: 'G4', dur: 1.5 }, { note: 'F4', dur: 0.5 },
-        // "show"
-        { note: 'D4', dur: 2.0 },
-        // "Hope you're wearing your best"
-        { note: 'F4', dur: 0.5 }, { note: 'F4', dur: 0.5 }, { note: 'F4', dur: 0.5 }, { note: 'A4', dur: 0.5 }, { note: 'G4', dur: 1.5 }, { note: 'F4', dur: 0.5 },
-        // "clothes"
-        { note: 'D4', dur: 2.0 },
-        // "You can't bribe the door on"
-        { note: 'C5', dur: 0.5 }, { note: 'C5', dur: 0.5 }, { note: 'A4', dur: 0.5 }, { note: 'C5', dur: 0.5 }, { note: 'A4', dur: 1.0 },
-        // "your way to the sky"
-        { note: 'G4', dur: 0.5 }, { note: 'F4', dur: 0.5 }, { note: 'G4', dur: 0.5 }, { note: 'F4', dur: 0.5 }, { note: 'F4', dur: 2.0 },
-        // "You look pretty good down"
-        { note: 'F4', dur: 0.5 }, { note: 'F4', dur: 0.5 }, { note: 'F4', dur: 0.5 }, { note: 'A4', dur: 0.5 }, { note: 'G4', dur: 1.5 }, { note: 'F4', dur: 0.5 },
-        // "here"
-        { note: 'D4', dur: 2.0 },
-        // "But you ain't really"
-        { note: 'F4', dur: 0.5 }, { note: 'F4', dur: 0.5 }, { note: 'F4', dur: 0.5 }, { note: 'A4', dur: 0.5 }, { note: 'G4', dur: 1.5 }, { note: 'F4', dur: 0.5 },
-        // "good"
-        { note: 'D4', dur: 2.0 },
-        { note: 'SILENCE', dur: 2.0 } // Pausa antes de repetir
+        // "I had all and then most of you"
+        { note: 'E5', dur: 0.6 }, { note: 'D5', dur: 0.6 }, { note: 'C5', dur: 0.6 }, { note: 'B4', dur: 0.6 }, { note: 'A4', dur: 1.5 }, { note: 'G4', dur: 1.0 },
+        // "Some and now none of you"
+        { note: 'E5', dur: 0.6 }, { note: 'D5', dur: 0.6 }, { note: 'C5', dur: 0.6 }, { note: 'B4', dur: 0.6 }, { note: 'G4', dur: 1.5 }, { note: 'A4', dur: 1.0 },
+        // "Take me back to the night we met"
+        { note: 'C5', dur: 0.75 }, { note: 'B4', dur: 0.75 }, { note: 'A4', dur: 0.75 }, { note: 'G4', dur: 0.75 }, { note: 'E4', dur: 1.5 }, { note: 'D4', dur: 0.75 }, { note: 'C4', dur: 2.0 },
+        // "I don't know what I'm supposed to do"
+        { note: 'E5', dur: 0.6 }, { note: 'D5', dur: 0.6 }, { note: 'C5', dur: 0.6 }, { note: 'B4', dur: 0.6 }, { note: 'A4', dur: 1.5 }, { note: 'G4', dur: 1.0 },
+        // "Haunted by the ghost of you"
+        { note: 'E5', dur: 0.6 }, { note: 'D5', dur: 0.6 }, { note: 'C5', dur: 0.6 }, { note: 'B4', dur: 0.6 }, { note: 'G4', dur: 1.5 }, { note: 'A4', dur: 1.0 },
+        // "Take me back to the night we met"
+        { note: 'C5', dur: 0.75 }, { note: 'B4', dur: 0.75 }, { note: 'A4', dur: 0.75 }, { note: 'G4', dur: 0.75 }, { note: 'E4', dur: 1.5 }, { note: 'D4', dur: 0.75 }, { note: 'C4', dur: 2.5 },
+        { note: 'SILENCE', dur: 2.0 }
     ];
 
     function initAudio() {
@@ -209,34 +197,27 @@ document.addEventListener('DOMContentLoaded', () => {
     function playNote(freq, time, duration) {
         if (freq === 0 || !audioCtx) return;
 
-        // Crear oscilador principal (onda triangular para tono dulce de flauta/caja)
         const osc1 = audioCtx.createOscillator();
         osc1.type = 'triangle';
         osc1.frequency.setValueAtTime(freq, time);
 
-        // Crear oscilador secundario (un armónico superior para simular el brillo del metal)
         const osc2 = audioCtx.createOscillator();
         osc2.type = 'sine';
         osc2.frequency.setValueAtTime(freq * 2, time);
 
-        // Crear nodo de ganancia para la envolvente de volumen
         const gainNode = audioCtx.createGain();
         gainNode.gain.setValueAtTime(0, time);
         
-        // Envolvente tipo Caja de Música (Ataque ultra rápido, decaimiento exponencial largo)
         gainNode.gain.linearRampToValueAtTime(0.2, time + 0.01);
         gainNode.gain.exponentialRampToValueAtTime(0.001, time + duration - 0.05);
 
-        // Conectar efectos para dar espacio y suavidad (Filtro Biquad)
         const filter = audioCtx.createBiquadFilter();
         filter.type = 'lowpass';
         filter.frequency.setValueAtTime(2000, time);
 
-        // Conexiones
         osc1.connect(gainNode);
         osc2.connect(gainNode);
         
-        // Nivel bajo para el armónico brillante
         const osc2Gain = audioCtx.createGain();
         osc2Gain.gain.setValueAtTime(0.04, time);
         osc2.connect(osc2Gain);
@@ -245,7 +226,6 @@ document.addEventListener('DOMContentLoaded', () => {
         gainNode.connect(filter);
         filter.connect(audioCtx.destination);
 
-        // Iniciar y detener
         osc1.start(time);
         osc2.start(time);
         osc1.stop(time + duration);
@@ -278,23 +258,48 @@ document.addEventListener('DOMContentLoaded', () => {
         currentNoteIndex = (currentNoteIndex + 1) % melody.length;
     }
 
+    const bgAudio = document.getElementById('bg-audio');
+
     function startMusic() {
+        isPlaying = true;
+        const musicBtn = document.getElementById('music-control-btn');
+        if (musicBtn) musicBtn.classList.add('playing');
+
+        // Intentar reproducir primero el archivo MP3 si existe en assets/musica.mp3
+        if (bgAudio) {
+            const playPromise = bgAudio.play();
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    // MP3 real reproduciéndose con éxito
+                    return;
+                }).catch(() => {
+                    // Si no hay MP3 cargado, usar la melodía sintetizada de Lord Huron
+                    startSynthMusic();
+                });
+                return;
+            }
+        }
+        startSynthMusic();
+    }
+
+    function startSynthMusic() {
         initAudio();
-        if (audioCtx.state === 'suspended') {
+        if (audioCtx && audioCtx.state === 'suspended') {
             audioCtx.resume();
         }
-        isPlaying = true;
-        nextNoteTime = audioCtx.currentTime + 0.1;
+        nextNoteTime = audioCtx ? audioCtx.currentTime + 0.1 : 0;
         currentNoteIndex = 0;
         scheduler();
-        
-        document.getElementById('music-control-btn').classList.add('playing');
     }
 
     function stopMusic() {
         isPlaying = false;
+        if (bgAudio) {
+            bgAudio.pause();
+        }
         clearTimeout(schedulerTimer);
-        document.getElementById('music-control-btn').classList.remove('playing');
+        const musicBtn = document.getElementById('music-control-btn');
+        if (musicBtn) musicBtn.classList.remove('playing');
     }
 
     function toggleMusic() {
