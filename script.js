@@ -333,17 +333,122 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 1000);
     });
 
-    // Sobre interactivo
+    // Sobre interactivo y Efecto Typewriter para la Carta
     const envelope = document.getElementById('interactive-envelope');
     const waxSeal = document.getElementById('wax-seal');
+    const letterContainer = document.getElementById('letter');
+    const letterContent = document.querySelector('.letter-content');
+    
+    let isTyping = false;
+    let typingTimeout = null;
+    let hasTypedOnce = false;
+
+    // Guardar contenido original de los párrafos de la carta
+    const letterItems = letterContent ? Array.from(letterContent.children).map(el => ({
+        el: el,
+        html: el.innerHTML
+    })) : [];
+
+    function showAllLetterText() {
+        isTyping = false;
+        if (typingTimeout) clearTimeout(typingTimeout);
+        
+        letterItems.forEach(item => {
+            item.el.innerHTML = item.html;
+        });
+        
+        const skipBtn = document.getElementById('btn-skip-typing');
+        if (skipBtn) skipBtn.remove();
+        hasTypedOnce = true;
+    }
+
+    function typeElement(el, fullHtml, speed, onComplete) {
+        el.innerHTML = '';
+        let i = 0;
+        
+        function step() {
+            if (!isTyping) return;
+            
+            if (i < fullHtml.length) {
+                // Saltar etiquetas HTML como <br> o <span> automáticamente
+                if (fullHtml[i] === '<') {
+                    const tagEnd = fullHtml.indexOf('>', i);
+                    if (tagEnd !== -1) {
+                        i = tagEnd + 1;
+                    } else {
+                        i++;
+                    }
+                } else {
+                    i++;
+                }
+                
+                el.innerHTML = fullHtml.substring(0, i) + '<span class="typing-cursor"></span>';
+                if (letterContainer) {
+                    letterContainer.scrollTop = letterContainer.scrollHeight;
+                }
+                typingTimeout = setTimeout(step, speed);
+            } else {
+                el.innerHTML = fullHtml;
+                if (onComplete) onComplete();
+            }
+        }
+        
+        step();
+    }
+
+    function startTypingLetter() {
+        if (hasTypedOnce || isTyping || letterItems.length === 0) return;
+        
+        isTyping = true;
+        
+        // Limpiar elementos inicialmente
+        letterItems.forEach(item => {
+            item.el.innerHTML = '';
+        });
+        
+        // Crear botón de saltar animación
+        let skipBtn = document.getElementById('btn-skip-typing');
+        if (!skipBtn && letterContent) {
+            skipBtn = document.createElement('button');
+            skipBtn.id = 'btn-skip-typing';
+            skipBtn.className = 'btn-skip-typing';
+            skipBtn.innerHTML = '⚡ Mostrar todo el texto';
+            skipBtn.addEventListener('click', (evt) => {
+                evt.stopPropagation();
+                showAllLetterText();
+            });
+            letterContent.appendChild(skipBtn);
+        }
+        
+        let currentIndex = 0;
+        
+        function typeNextItem() {
+            if (!isTyping) return;
+            
+            if (currentIndex < letterItems.length) {
+                const item = letterItems[currentIndex];
+                currentIndex++;
+                
+                typeElement(item.el, item.html, 20, () => {
+                    typingTimeout = setTimeout(typeNextItem, 180);
+                });
+            } else {
+                isTyping = false;
+                hasTypedOnce = true;
+                const btn = document.getElementById('btn-skip-typing');
+                if (btn) btn.remove();
+            }
+        }
+        
+        typeNextItem();
+    }
 
     envelope.addEventListener('click', (e) => {
-        // Evitar que haga clic en el texto o la carta y reinicie
-        if (e.target.closest('.letter')) return;
+        // Evitar reiniciar si se hace clic dentro del contenido de la carta o en el botón de saltar
+        if (e.target.closest('.letter') || e.target.closest('.btn-skip-typing')) return;
         
         const isOpen = envelope.classList.toggle('open');
         
-        // Generar destellos de partículas al romper el sello de cera
         if (isOpen) {
             const rect = waxSeal ? waxSeal.getBoundingClientRect() : envelope.getBoundingClientRect();
             const posX = rect.left + rect.width / 2;
@@ -352,10 +457,18 @@ document.addEventListener('DOMContentLoaded', () => {
             // Ráfaga inmediata al romper el sello
             createBurst(posX, posY, 45);
             
-            // Ráfaga secundaria suave para dar más magia
+            // Ráfaga secundaria suave
             setTimeout(() => {
                 createBurst(posX, posY - 20, 25);
             }, 150);
+
+            // Iniciar efecto mecanografía cuando la carta comience a subir
+            setTimeout(() => {
+                startTypingLetter();
+            }, 450);
+        } else {
+            // Si el sobre se cierra, mostrar el texto completo por si se vuelve a abrir
+            showAllLetterText();
         }
     });
 

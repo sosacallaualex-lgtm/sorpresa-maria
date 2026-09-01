@@ -505,6 +505,7 @@ body {
     overflow-y: auto;
     text-align: left;
     border: 1px solid rgba(184, 115, 102, 0.15);
+    scroll-behavior: smooth;
 }
 
 .letter-content {
@@ -533,6 +534,47 @@ body {
     font-weight: 700;
     margin-top: 5px;
     color: var(--rose-gold-dark);
+}
+
+/* Cursor de escritura y botón de salto */
+.typing-cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1.1em;
+    background-color: var(--rose-gold-dark);
+    margin-left: 2px;
+    vertical-align: middle;
+    animation: blinkCursor 0.7s infinite;
+}
+
+@keyframes blinkCursor {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+.btn-skip-typing {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 6px;
+    padding: 4px 12px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--rose-gold-dark);
+    background: rgba(184, 115, 102, 0.1);
+    border: 1px dashed var(--rose-gold);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    align-self: center;
+    user-select: none;
+}
+
+.btn-skip-typing:hover {
+    background: var(--rose-gold-dark);
+    color: #ffffff;
+    border-style: solid;
 }
 
 /* Sobre abierto */
