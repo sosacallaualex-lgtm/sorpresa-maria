@@ -478,31 +478,121 @@ document.addEventListener('DOMContentLoaded', () => {
     const cakeInstruction = document.getElementById('cake-instruction');
     let activeCandlesCount = candles.length;
 
+    function extinguishCandle(candle) {
+        if (candle && candle.classList.contains('active')) {
+            candle.classList.remove('active');
+            activeCandlesCount--;
+
+            // Efecto de chispa al apagar una vela
+            const rect = candle.getBoundingClientRect();
+            createBurst(rect.left + rect.width / 2, rect.top, 15);
+
+            // Si se apagaron todas las velas
+            if (activeCandlesCount === 0) {
+                setTimeout(() => {
+                    // Gran explosión de felicidad en la torta
+                    const cakeRect = document.querySelector('.cake').getBoundingClientRect();
+                    createBurst(cakeRect.left + cakeRect.width / 2, cakeRect.top - 20, 100);
+                    
+                    // Revelar mensaje de deseos
+                    wishMessage.classList.remove('hidden');
+                    cakeInstruction.innerHTML = "✨ ¡Todas las velas están apagadas! Has pedido tu deseo. ✨";
+                    
+                    stopMicListening();
+                    if (btnMic) {
+                        btnMic.querySelector('.mic-text').innerText = "✨ ¡Velas apagadas!";
+                    }
+                }, 500);
+            }
+        }
+    }
+
     candles.forEach(candle => {
         candle.addEventListener('click', function() {
-            if (this.classList.contains('active')) {
-                this.classList.remove('active');
-                activeCandlesCount--;
-
-                // Efecto de chispa al apagar una vela
-                const rect = this.getBoundingClientRect();
-                createBurst(rect.left + rect.width / 2, rect.top, 15);
-
-                // Si se apagaron todas las velas
-                if (activeCandlesCount === 0) {
-                    setTimeout(() => {
-                        // Gran explosión de felicidad en la torta
-                        const cakeRect = document.querySelector('.cake').getBoundingClientRect();
-                        createBurst(cakeRect.left + cakeRect.width / 2, cakeRect.top - 20, 100);
-                        
-                        // Revelar mensaje de deseos
-                        wishMessage.classList.remove('hidden');
-                        cakeInstruction.innerHTML = "✨ ¡Todas las velas están apagadas! Has pedido tu deseo. ✨";
-                    }, 500);
-                }
-            }
+            extinguishCandle(this);
         });
     });
+
+    // ----------------------------------------------------
+    // DETECCIÓN DE SOPLO CON MICRÓFONO REAL
+    // ----------------------------------------------------
+    const btnMic = document.getElementById('btn-mic');
+    let micStream = null;
+    let audioContextMic = null;
+    let micAnalyser = null;
+    let micAnimFrame = null;
+
+    function stopMicListening() {
+        if (micStream) {
+            micStream.getTracks().forEach(track => track.stop());
+            micStream = null;
+        }
+        if (micAnimFrame) cancelAnimationFrame(micAnimFrame);
+        if (btnMic) {
+            btnMic.classList.remove('listening');
+            if (activeCandlesCount > 0) {
+                btnMic.querySelector('.mic-text').innerText = "Soplar con el micrófono";
+            }
+        }
+    }
+
+    if (btnMic) {
+        btnMic.addEventListener('click', async () => {
+            if (activeCandlesCount === 0) return;
+
+            if (btnMic.classList.contains('listening')) {
+                stopMicListening();
+                return;
+            }
+
+            try {
+                micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                audioContextMic = new (window.AudioContext || window.webkitAudioContext)();
+                const source = audioContextMic.createMediaStreamSource(micStream);
+                micAnalyser = audioContextMic.createAnalyser();
+                micAnalyser.fftSize = 256;
+                source.connect(micAnalyser);
+
+                btnMic.classList.add('listening');
+                btnMic.querySelector('.mic-text').innerText = "¡Sopla fuerte al micrófono! 💨";
+
+                const dataArray = new Uint8Array(micAnalyser.frequencyBinCount);
+                let blowCounter = 0;
+
+                function checkBlow() {
+                    if (!btnMic.classList.contains('listening') || activeCandlesCount === 0) return;
+
+                    micAnalyser.getByteFrequencyData(dataArray);
+                    
+                    let sum = 0;
+                    for (let i = 0; i < dataArray.length; i++) {
+                        sum += dataArray[i];
+                    }
+                    const average = sum / dataArray.length;
+
+                    if (average > 42) {
+                        blowCounter++;
+                        if (blowCounter >= 2) {
+                            blowCounter = 0;
+                            const activeCandles = Array.from(document.querySelectorAll('.candle.active'));
+                            if (activeCandles.length > 0) {
+                                extinguishCandle(activeCandles[0]);
+                            }
+                        }
+                    } else {
+                        blowCounter = Math.max(0, blowCounter - 1);
+                    }
+
+                    micAnimFrame = requestAnimationFrame(checkBlow);
+                }
+
+                checkBlow();
+            } catch (err) {
+                console.error("Error accediendo al micrófono:", err);
+                btnMic.querySelector('.mic-text').innerText = "Haz clic en las velas para soplarlas 🕯️";
+            }
+        });
+    }
 
     // Corazones con deseos
     const heartButtons = document.querySelectorAll('.heart-btn');
