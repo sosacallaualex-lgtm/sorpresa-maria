@@ -355,6 +355,197 @@ body {
     to { opacity: 1; transform: translateY(0); }
 }
 
+/* Badge de Edad */
+.birthday-badge-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 18px;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--rose-gold-light);
+    margin-bottom: 12px;
+    background: rgba(232, 176, 162, 0.12);
+    border: 1px solid rgba(232, 176, 162, 0.3);
+    box-shadow: 0 4px 15px rgba(232, 176, 162, 0.15);
+    animation: fadeInDown 0.8s ease;
+}
+
+.pill-sparkle {
+    font-size: 13px;
+    animation: sparkleGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes sparkleGlow {
+    0% { transform: scale(0.8); opacity: 0.6; }
+    100% { transform: scale(1.2); opacity: 1; filter: drop-shadow(0 0 6px var(--gold)); }
+}
+
+/* Temporizador / Countdown */
+.countdown-container {
+    max-width: 520px;
+    margin: 28px auto 10px auto;
+    padding: 18px 24px;
+    border-radius: 20px;
+    background: rgba(20, 13, 36, 0.65);
+    border: 1px solid rgba(232, 176, 162, 0.25);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(232, 176, 162, 0.15);
+    animation: fadeInUp 1s ease 0.4s both;
+}
+
+.countdown-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+
+.countdown-icon {
+    font-size: 16px;
+    animation: rotateSand 4s ease-in-out infinite;
+}
+
+@keyframes rotateSand {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(180deg); }
+}
+
+.countdown-label {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--rose-gold-light);
+}
+
+.countdown-units {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.countdown-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 72px;
+    padding: 10px 8px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(232, 176, 162, 0.15);
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.25);
+    transition: var(--transition-smooth);
+}
+
+.countdown-box:hover {
+    border-color: var(--rose-gold);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(232, 176, 162, 0.2);
+}
+
+.countdown-num {
+    font-size: 26px;
+    font-weight: 800;
+    font-family: 'Outfit', sans-serif;
+    color: #fff;
+    background: linear-gradient(135deg, #ffffff, var(--rose-gold-light));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1.1;
+}
+
+.countdown-text {
+    font-size: 11px;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-top: 4px;
+    letter-spacing: 0.5px;
+}
+
+.countdown-sep {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--rose-gold);
+    margin-bottom: 16px;
+    opacity: 0.8;
+    animation: blinkSep 1.5s infinite;
+}
+
+@keyframes blinkSep {
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 0.3; }
+}
+
+/* Banner de hoy es su cumpleaños */
+.birthday-today-banner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 15px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(232, 176, 162, 0.25), rgba(212, 175, 55, 0.2));
+    border: 1px solid rgba(255, 215, 0, 0.4);
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+    animation: pulseBday 2s ease-in-out infinite;
+}
+
+.birthday-today-banner h3 {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    background: linear-gradient(135deg, #fff, var(--gold-light), var(--rose-gold-light));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.birthday-today-banner p {
+    font-size: 15px;
+    color: var(--text-main);
+    font-weight: 600;
+}
+
+.bday-balloon {
+    font-size: 24px;
+}
+
+@keyframes pulseBday {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 25px rgba(232, 176, 162, 0.3); }
+    50% { transform: scale(1.02); box-shadow: 0 0 35px rgba(255, 215, 0, 0.5); }
+}
+
+@media (max-width: 600px) {
+    .countdown-container {
+        padding: 14px 10px;
+        margin: 20px 8px 10px 8px;
+    }
+    .countdown-units {
+        gap: 6px;
+    }
+    .countdown-box {
+        min-width: 54px;
+        padding: 8px 4px;
+    }
+    .countdown-num {
+        font-size: 20px;
+    }
+    .countdown-text {
+        font-size: 9px;
+    }
+    .countdown-sep {
+        font-size: 16px;
+        margin-bottom: 12px;
+    }
+}
+
 /* Secciones Generales */
 .section {
     text-align: center;

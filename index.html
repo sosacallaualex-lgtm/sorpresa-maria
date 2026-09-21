@@ -47,8 +47,49 @@
 
         <!-- Encabezado Principal -->
         <header class="main-header">
+            <div class="birthday-badge-pill glass">
+                <span class="pill-sparkle">✨</span>
+                <span id="current-age-badge">20 años</span> de sonrisas e historias
+                <span class="pill-sparkle">✨</span>
+            </div>
             <h1 class="header-title">¡Feliz Cumpleaños, <span class="highlight">María</span>! 🌸</h1>
             <p class="header-subtitle">Hoy es un día mágico porque celebramos tu vida y la alegría que traes a todos.</p>
+
+            <!-- Temporizador / Cuenta Regresiva Automática -->
+            <div class="countdown-container glass" id="countdown-widget">
+                <div class="countdown-header" id="countdown-header">
+                    <span class="countdown-icon">⏳</span>
+                    <span class="countdown-label" id="countdown-label">Cuenta regresiva para sus 21 años</span>
+                </div>
+                <div class="countdown-units" id="countdown-units">
+                    <div class="countdown-box">
+                        <span class="countdown-num" id="cd-days">00</span>
+                        <span class="countdown-text">Días</span>
+                    </div>
+                    <div class="countdown-sep">:</div>
+                    <div class="countdown-box">
+                        <span class="countdown-num" id="cd-hours">00</span>
+                        <span class="countdown-text">Horas</span>
+                    </div>
+                    <div class="countdown-sep">:</div>
+                    <div class="countdown-box">
+                        <span class="countdown-num" id="cd-mins">00</span>
+                        <span class="countdown-text">Minutos</span>
+                    </div>
+                    <div class="countdown-sep">:</div>
+                    <div class="countdown-box">
+                        <span class="countdown-num" id="cd-secs">00</span>
+                        <span class="countdown-text">Segundos</span>
+                    </div>
+                </div>
+                <!-- Banner especial que se activa automáticamente solo el día de su cumpleaños (22 de Julio) -->
+                <div class="birthday-today-banner hidden" id="birthday-today-banner">
+                    <span class="bday-balloon">🎈</span>
+                    <h3>¡HOY ES SU CUMPLEAÑOS!</h3>
+                    <p>Celebrando con todo el corazón sus <span id="bday-today-age">20</span> años 🎉🎂</p>
+                    <span class="bday-balloon">✨</span>
+                </div>
+            </div>
         </header>
 
         <!-- SECCIÓN 1: El Sobre Interactivo -->

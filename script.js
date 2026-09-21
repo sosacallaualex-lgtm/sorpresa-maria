@@ -661,4 +661,120 @@ document.addEventListener('DOMContentLoaded', () => {
             card.style.transform = '';
         });
     });
+
+    // ----------------------------------------------------
+    // 5. CÁLCULO DE EDAD DINÁMICO Y TEMPORIZADOR AUTOMÁTICO
+    // Fecha de nacimiento: 22 de Julio de 2006
+    // ----------------------------------------------------
+    const BIRTH_DAY = 22;
+    const BIRTH_MONTH = 6; // Julio (0-indexado: 0 = Ene, 6 = Jul)
+    const BIRTH_YEAR = 2006;
+
+    const currentAgeBadge = document.getElementById('current-age-badge');
+    const countdownLabel = document.getElementById('countdown-label');
+    const countdownHeader = document.getElementById('countdown-header');
+    const countdownUnits = document.getElementById('countdown-units');
+    const birthdayTodayBanner = document.getElementById('birthday-today-banner');
+    const bdayTodayAge = document.getElementById('bday-today-age');
+
+    const cdDays = document.getElementById('cd-days');
+    const cdHours = document.getElementById('cd-hours');
+    const cdMins = document.getElementById('cd-mins');
+    const cdSecs = document.getElementById('cd-secs');
+
+    // Actualizar año del footer automáticamente
+    const footerSub = document.querySelector('.footer-sub');
+    if (footerSub) {
+        footerSub.textContent = `Feliz Cumpleaños • ${new Date().getFullYear()}`;
+    }
+
+    function calculateCurrentAge(now) {
+        let age = now.getFullYear() - BIRTH_YEAR;
+        const currentMonth = now.getMonth();
+        const currentDay = now.getDate();
+
+        // Si aún no ha llegado su cumpleaños este año
+        if (currentMonth < BIRTH_MONTH || (currentMonth === BIRTH_MONTH && currentDay < BIRTH_DAY)) {
+            age--;
+        }
+        return age;
+    }
+
+    let birthdayCelebrationTriggered = false;
+
+    function updateCountdown() {
+        const now = new Date();
+        const currentYear = now.getFullYear();
+        const currentAge = calculateCurrentAge(now);
+
+        // Actualizar badge de edad actual
+        if (currentAgeBadge) {
+            currentAgeBadge.textContent = `${currentAge} años`;
+        }
+
+        // Determinar si hoy es su cumpleaños
+        const isBirthdayToday = (now.getMonth() === BIRTH_MONTH && now.getDate() === BIRTH_DAY);
+
+        if (isBirthdayToday) {
+            // Modo celebración activa
+            if (countdownUnits) countdownUnits.classList.add('hidden');
+            if (countdownHeader) countdownHeader.classList.add('hidden');
+            if (birthdayTodayBanner) {
+                birthdayTodayBanner.classList.remove('hidden');
+                if (bdayTodayAge) bdayTodayAge.textContent = currentAge;
+            }
+
+            // Ráfaga festiva de confeti ocasional en su día
+            if (!birthdayCelebrationTriggered) {
+                birthdayCelebrationTriggered = true;
+                createBurst(width / 2, height / 3, 70);
+            }
+            return;
+        }
+
+        // Si no es hoy su cumpleaños, asegurar que la cuenta regresiva esté visible
+        if (countdownUnits) countdownUnits.classList.remove('hidden');
+        if (countdownHeader) countdownHeader.classList.remove('hidden');
+        if (birthdayTodayBanner) birthdayTodayBanner.classList.add('hidden');
+
+        // Determinar la fecha del próximo cumpleaños
+        let nextBirthdayYear = currentYear;
+        const thisYearBirthday = new Date(currentYear, BIRTH_MONTH, BIRTH_DAY, 0, 0, 0, 0);
+
+        if (now >= thisYearBirthday) {
+            // El cumpleaños de este año ya pasó, el próximo es el siguiente año
+            nextBirthdayYear = currentYear + 1;
+        }
+
+        const nextBirthday = new Date(nextBirthdayYear, BIRTH_MONTH, BIRTH_DAY, 0, 0, 0, 0);
+        const nextAge = nextBirthdayYear - BIRTH_YEAR;
+
+        if (countdownLabel) {
+            countdownLabel.textContent = `Cuenta regresiva para sus ${nextAge} años`;
+        }
+
+        // Calcular diferencia de tiempo restante
+        const diffMs = nextBirthday.getTime() - now.getTime();
+
+        if (diffMs <= 0) {
+            // Justo cruzó la medianoche del cumpleaños
+            updateCountdown();
+            return;
+        }
+
+        const totalSeconds = Math.floor(diffMs / 1000);
+        const days = Math.floor(totalSeconds / (3600 * 24));
+        const hours = Math.floor((totalSeconds % (3600 * 24)) / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = Math.floor(totalSeconds % 60);
+
+        if (cdDays) cdDays.textContent = String(days).padStart(2, '0');
+        if (cdHours) cdHours.textContent = String(hours).padStart(2, '0');
+        if (cdMins) cdMins.textContent = String(minutes).padStart(2, '0');
+        if (cdSecs) cdSecs.textContent = String(seconds).padStart(2, '0');
+    }
+
+    // Inicializar inmediatamente y actualizar cada segundo
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
 });
